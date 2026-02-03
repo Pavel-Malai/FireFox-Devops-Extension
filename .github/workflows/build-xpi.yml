@@ -8,6 +8,8 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
 
@@ -23,3 +25,13 @@ jobs:
         with:
           name: firefox-extension-${{ env.XPI_NAME }}
           path: ${{ env.XPI_NAME }}
+
+      - name: Commit XPI to repo
+        run: |
+          mkdir -p dist
+          cp "$XPI_NAME" dist/AzureDevOpsJiraStatus.xpi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add dist/AzureDevOpsJiraStatus.xpi
+          git diff --staged --quiet || git commit -m "Build XPI [skip ci]"
+          git push
