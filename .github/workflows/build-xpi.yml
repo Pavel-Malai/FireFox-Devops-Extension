@@ -1,0 +1,24 @@
+name: Build XPI
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Create XPI
+        run: |
+          DATE=$(date +%Y-%m-%d)
+          echo "XPI_NAME=AzureDevOpsJiraStatus-${DATE}.xpi" >> $GITHUB_ENV
+          zip "$XPI_NAME" manifest.json content.js background.js
+
+      - name: Upload XPI artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: firefox-extension-${{ env.XPI_NAME }}
+          path: ${{ env.XPI_NAME }}
