@@ -1,0 +1,29 @@
+{
+  "manifest_version": 2,
+  "name": "Azure DevOps JIRA Status",
+  "version": "1.0.0",
+  "description": "Shows JIRA ticket status next to Azure DevOps build artifacts",
+  "permissions": [
+    "https://commify.visualstudio.com/*",
+    "https://esendex.atlassian.net/*"
+  ],
+  "background": {
+    "scripts": ["background.js"],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "https://commify.visualstudio.com/*"
+      ],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "azure-devops-jira-status@example.com",
+      "strict_min_version": "91.0"
+    }
+  }
+}
