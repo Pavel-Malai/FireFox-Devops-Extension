@@ -16,20 +16,19 @@ jobs:
       - name: Create XPI
         run: |
           DATE=$(date +%Y-%m-%d)
-          XPI_NAME="AzureDevOpsJiraStatus-${DATE}.xpi"
-          echo "XPI_NAME=$XPI_NAME" >> $GITHUB_ENV
-          zip "$XPI_NAME" manifest.json content.js background.js
+          echo "DATE=$DATE" >> $GITHUB_ENV
+          zip build.xpi manifest.json content.js background.js
 
       - name: Upload XPI artifact
         uses: actions/upload-artifact@v4
         with:
-          name: firefox-extension-${{ env.XPI_NAME }}
-          path: ${{ env.XPI_NAME }}
+          name: firefox-extension-${{ env.DATE }}
+          path: build.xpi
 
       - name: Commit XPI to repo
         run: |
           mkdir -p dist
-          cp "$XPI_NAME" dist/AzureDevOpsJiraStatus.xpi
+          cp build.xpi dist/AzureDevOpsJiraStatus.xpi
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add dist/AzureDevOpsJiraStatus.xpi
