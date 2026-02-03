@@ -4,3 +4,5 @@ Thumbs.db
 
 # Build
 *.xpi
+# Allow XPI in dist (committed by CI)
+!dist/*.xpi
