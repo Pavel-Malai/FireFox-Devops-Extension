@@ -14,7 +14,8 @@ jobs:
       - name: Create XPI
         run: |
           DATE=$(date +%Y-%m-%d)
-          echo "XPI_NAME=AzureDevOpsJiraStatus-${DATE}.xpi" >> $GITHUB_ENV
+          XPI_NAME="AzureDevOpsJiraStatus-${DATE}.xpi"
+          echo "XPI_NAME=$XPI_NAME" >> $GITHUB_ENV
           zip "$XPI_NAME" manifest.json content.js background.js
 
       - name: Upload XPI artifact
